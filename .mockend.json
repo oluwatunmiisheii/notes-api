@@ -1,5 +1,8 @@
 {
   "Note": {
+    "_": {
+      "items": 10
+    },
     "title": {
       "loremWords": {
         "minLength": 5,
