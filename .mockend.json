@@ -1,11 +1,11 @@
 {
   "Note": {
-   "title": {
-    "loremWords": {
-      "minLength": 5,
-      "maxLength": 20
-    }
-   },
+    "title": {
+      "loremWords": {
+        "minLength": 5,
+        "maxLength": 20
+      }
+    },
     "description": {
       "loremParagraphs": {
         "minLength": 5,
@@ -13,10 +13,8 @@
       }
     },
     "date": {
-      "date": {
-        "min": "2018-01-01",
-        "max": "2018-12-31"
-      }
+      "min": "2018-01-01",
+      "max": "2018-12-31"
     },
     "note": {
       "loremParagraphs": {
