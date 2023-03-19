@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "yarn install && yarn build:clean",
-    "build:clean": "yarn clean",
+    "build": "yarn install",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "nuke": "rm -rf node_modules; rm package-lock.json; npm install",
