@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Welcome to notes api!')
 })
 app.use("/api/users", userRouter)
 app.use("/api/notes", noteRouter)
