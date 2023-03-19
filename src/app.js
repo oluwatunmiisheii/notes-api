@@ -4,6 +4,7 @@ require('./db/mongoose')
 const userRouter = require('./routes/user.route')
 const noteRouter = require('./routes/note.route')
 const authRouter = require('./routes/auth.route')
+const cors = require('cors')
 
 const app = express()
 
@@ -14,6 +15,12 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+app.use(
+  cors({
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  }),
+)
 
 app.get('/', (req, res) => {
   res.send('Welcome to notes api!')
