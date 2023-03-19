@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "build": "yarn install && yarn build:clean",
+    "build:clean": "yarn clean",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "nuke": "rm -rf node_modules; rm package-lock.json; npm install",
     "test": "jest --watch --runInBand"
