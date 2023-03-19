@@ -1,40 +1,35 @@
-const Task = require("../../models/task.model");
+const Note = require("../../models/note.model");
 const mongoose = require("mongoose");
 
-class Tasks {
-  async createTask(req, res) {
+class Notes {
+  async createNote(req, res) {
     try {
-      const task = new Task({
+      const task = new Note({
         ...req.body,
         owner: req.user._id,
       });
       await task.save();
 
       res.status(201).send({
-        message: "Task created successfully",
+        message: "Note created successfully",
         success: true,
         data: task,
       });
     } catch (error) {
       res.status(400).send({
-        message: "Task not created",
+        message: "Note not created",
         success: false,
         error,
       });
     }
   }
 
-  async getTasks(req, res) {
-    const match = {};
+  async getNotes(req, res) {
     const sort = { createdAt: -1 };
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
 
     const skip = (page - 1) * limit;
-
-    if (req.query.completed) {
-      match.completed = req.query.completed === "true";
-    }
 
     if (req.query.sortBy) {
       sort.createdAt = req.query.sortBy === "desc" ? -1 : 1;
@@ -42,11 +37,9 @@ class Tasks {
 
     try {
       const ownerId = mongoose.Types.ObjectId(req.user._id);
-      // const tasks = await Task.find({ owner: { $in: [ownerId] } }).populate('owner', ['name', 'email', 'age'])
-      const tasks = await Task.aggregate([
+      const tasks = await Note.aggregate([
         {
           $match: {
-            ...match,
             owner: ownerId,
           },
         },
@@ -75,16 +68,6 @@ class Tasks {
             data: [{ $skip: skip }, { $limit: limit }],
           },
         },
-        // {
-        //   $project: {
-        //     description: 1,
-        //     completed: 1,
-        //     owner: {
-        //       name: 1,
-        //       age: 1,
-        //     },
-        //   },
-        // },
       ]);
 
       if (!tasks) {
@@ -110,23 +93,23 @@ class Tasks {
     }
   }
 
-  async getTask(req, res) {
+  async getNote(req, res) {
     const _id = req.params.id;
     try {
-      const task = await Task.findOne({ _id, owner: req.user._id });
+      const note = await Note.findOne({ _id, owner: req.user._id });
 
-      if (!task) {
+      if (!note) {
         return res.status(404).send({
-          message: "Task not found",
+          message: "Note not found",
           error: true,
           success: false,
         });
       }
 
       res.status(200).send({
-        message: "Task fetched successfully",
+        message: "Note fetched successfully",
         success: true,
-        data: task,
+        data: note,
       });
     } catch (error) {
       res.status(500).send({
@@ -137,7 +120,7 @@ class Tasks {
     }
   }
 
-  async updateTask(req, res) {
+  async updateNote(req, res) {
     const _id = req.params.id;
     if (!_id) {
       return res.status(404).send({
@@ -145,9 +128,8 @@ class Tasks {
         success: false,
       });
     }
-
     const updates = Object.keys(req.body);
-    const allowedUpdateArray = ["description", "completed"];
+    const allowedUpdateArray = ["description", "title", "note"];
     const isValidOperation = updates.every((update) => allowedUpdateArray.includes(update));
 
     if (!isValidOperation) {
@@ -158,52 +140,52 @@ class Tasks {
     }
 
     try {
-      const task = await Task.findOneAndUpdate({ _id, owner: req.user._id }, req.body, {
+      const note = await Note.findOneAndUpdate({ _id, owner: req.user._id }, req.body, {
         new: true,
         runValidators: true,
       });
 
-      if (!task) {
+      if (!note) {
         return res.status(404).send({
-          message: "Task not found",
+          message: "Note not found",
           success: false,
         });
       }
 
       res.status(200).send({
-        message: "Task updated successfully",
+        message: "Note updated successfully",
         success: true,
-        data: task,
+        data: note,
       });
     } catch (error) {
       res.status(400).send({
-        message: "Task not updated",
+        message: "Note not updated",
         success: false,
         error,
       });
     }
   }
 
-  async deleteTask(req, res) {
+  async deleteNote(req, res) {
     const _id = req.params.id;
     try {
-      const task = await Task.findOneAndDelete({ _id, owner: req.user._id });
+      const note = await Note.findOneAndDelete({ _id, owner: req.user._id });
 
-      if (!task) {
+      if (!note) {
         return res.status(404).send({
-          message: "Task not found",
+          message: "Note not found",
           success: false,
         });
       }
 
       res.status(200).send({
-        message: "Task deleted successfully",
+        message: "Note deleted successfully",
         success: true,
-        data: task,
+        data: note,
       });
     } catch (error) {
       res.status(500).send({
-        message: "Task not deleted",
+        message: "Note not deleted",
         success: false,
         error,
       });
@@ -211,4 +193,4 @@ class Tasks {
   }
 }
 
-module.exports = new Tasks();
+module.exports = new Notes();

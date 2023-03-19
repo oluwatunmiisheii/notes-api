@@ -2,22 +2,13 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
-const Task = require('./task.model')
+const Task = require('./note.model')
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true
-  },
-  age: {
-    type: Number,
-    default: 0,
-    validate(value) {
-      if(value < 0) {
-        throw new Error('Age must be a  positive number')
-      }
-    }
   },
   email: {
     type: String,

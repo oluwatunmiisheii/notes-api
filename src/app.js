@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express')
 require('./db/mongoose')
 const userRouter = require('./routes/user.route')
-const taskRouter = require('./routes/task.route')
+const noteRouter = require('./routes/note.route')
 const authRouter = require('./routes/auth.route')
 
 const app = express()
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 app.use("/api/users", userRouter)
-app.use("/api/", taskRouter)
+app.use("/api/notes", noteRouter)
 app.use("/api/", authRouter)
 
 module.exports = app

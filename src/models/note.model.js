@@ -1,15 +1,19 @@
 const mongoose = require('mongoose')
 
-const taskSchema = new mongoose.Schema({
+const noteSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
     required: true
   },
-  completed: {
-    type: Boolean,
+  title: {
+    type: String,
+    required: true,
+  },
+  note: {
+    type: String,
     required: false,
-    default: false
+    default: ''
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +22,6 @@ const taskSchema = new mongoose.Schema({
   }
 }, { timestamps: true })
 
-const Task = mongoose.model('Task', taskSchema)
+const Note = mongoose.model('Note', noteSchema)
 
-module.exports = Task
+module.exports = Note

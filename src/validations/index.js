@@ -1,10 +1,10 @@
 const authSchema = require("./auth.validation")
 const userSchema = require("./user.validation")
-const taskSchema = require("./task.validation")
+const noteSchema = require("./note.validation")
 
 module.exports = {
   login: authSchema.loginSchema,
   register: authSchema.registerSchema,
   getUser: userSchema.getUserSchema,
-  createTask: taskSchema.createTaskSchema,
+  createNote: noteSchema.createNoteSchema,
 };
